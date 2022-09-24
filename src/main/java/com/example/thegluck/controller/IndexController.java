@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 public class IndexController {
     @RequestMapping("/")
     public String index() {
-//        model.addAttribute("name", name);
         return "index.html";
     }
 
