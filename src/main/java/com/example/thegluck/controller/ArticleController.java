@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class ArticleController {
 //    @Autowired
 //    private ArticleRepo articleRepo;
-    @RequestMapping("/editor")
-    public String index() {
-        return "editor.html";
-    }
+//    @RequestMapping("/editor")
+//    public String index() {
+//        return "editor.html";
+//    }
 }
 
