@@ -1,17 +1,16 @@
 package com.example.thegluck.domain;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "articles")
 public class Article {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
-    private String title;
-    private String text;
     private String tag;
+    private String title;
+    private String description;
+    private String text;
     public Article() {
     }
     public Article(String title, String text, String tag) {
@@ -30,6 +29,12 @@ public class Article {
     }
     public String getTitle() {
         return title;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
     public void setText(String text) {
         this.text = text;
