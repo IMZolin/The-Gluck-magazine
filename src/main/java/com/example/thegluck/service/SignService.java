@@ -5,6 +5,7 @@ import com.example.thegluck.repos.UserRepo;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Objects;
@@ -25,5 +26,12 @@ public class SignService {
         return userRepo.save(
                 User.of(username, fist_name, last_name, email, passwordEncoder.encode(password))
         );
+    }
+    public User login(String email, String password){
+        var user = userRepo.findByEmail(email)
+                .orElseThrow(() ->new ResponseStatusException(HttpStatus.BAD_REQUEST,"invalid credentials"));
+        if(passwordEncoder.matches(password, user.getPassword()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"invalid credentials");
+        return null;
     }
 }

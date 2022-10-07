@@ -47,7 +47,7 @@ public class User {
         this.password = password;
         this.active = active;
     }
-    public static User of(String username, String fist_name, String last_name, String email, String password){
+    public static User of(String username, String fist_name, String last_name, String email, String password, boolean active){
         return new User(null, username, fist_name, last_name, email, password, active);
     }
     @PersistenceConstructor
@@ -63,4 +63,7 @@ public class User {
     }
 
 
+    public static User of(String username, String fist_name, String last_name, String email, String encode) {
+        return new User(null, username, fist_name, last_name, email, encode);
+    }
 }

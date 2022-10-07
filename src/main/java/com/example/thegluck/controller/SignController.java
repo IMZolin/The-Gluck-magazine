@@ -1,21 +1,18 @@
 package com.example.thegluck.controller;
 
 import com.example.thegluck.repos.UserRepo;
+import com.example.thegluck.service.SignService;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Objects;
 
 @RestController
 @RequestMapping(value="/api")
 public class SignController {
-    private final UserRepo userRepo;
+    private final SignService signService;
 
-    public SignController(UserRepo userRepo, PasswordEncoder passwordEncoder) {
-        this.userRepo = userRepo;
+    public SignController(UserRepo userRepo, PasswordEncoder passwordEncoder, SignService signService) {
+        this.signService = signService;
     }
 
     @GetMapping(value="/hello")
@@ -39,17 +36,29 @@ public class SignController {
     ){}
     @PostMapping(value ="/signup")
     public SignupResponse signup(@RequestBody SignupRequest signupRequest){
-        var user = userRepo.save(
-                com.example.thegluck.domain.User.of(
-                        signupRequest.username(),
-                        signupRequest.fist_name(),
-                        signupRequest.last_name(),
-                        signupRequest.email(),
-                        signupRequest.password(),
-                        signupRequest.active()
-                )
+        var user = signService.signup(
+                signupRequest.username(),
+                signupRequest.fist_name(),
+                signupRequest.last_name(),
+                signupRequest.email(),
+                signupRequest.password(),
+                signupRequest.passwordConfirm()
         );
         return new SignupResponse(user.getId(),user.getUsername(),user.getFist_name(), user.getLast_name(),user.getEmail());
+    }
+
+    record LoginRequest(String email, String password){}
+    record LoginResponse(Long id,
+                          @JsonProperty("username") String username,
+                          @JsonProperty("first_name") String fist_name,
+                          @JsonProperty("last_name")String last_name,
+                          String email
+    ){}
+
+    @PostMapping(value = "/login")
+    public LoginResponse login(@RequestBody LoginRequest loginRequest){
+        var user = signService.login(loginRequest.email(), loginRequest.password());
+        return new LoginResponse(user.getId(),user.getUsername(),user.getFist_name(),user.getLast_name(),user.getEmail());
     }
 
 }
