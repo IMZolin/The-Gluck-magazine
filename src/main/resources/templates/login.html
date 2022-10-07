@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Login/ The Gluck </title>
+</head>
+<body>
+<!--<div th:if="${param.error}">-->
+<!--    Invalid username and password.-->
+<!--</div>-->
+<!--<div th:if="${param.logout}">-->
+<!--    You have been logged out.-->
+<!--</div>-->
+<div class="container">
+    <div class="header"></div>
+    <div class="form-container" id="sign_in_form">
+        <form th:action="@{/login}" method="post">
+            <div class="row">
+                <input type="text" name="username"/>
+                <label> User Name: </label>
+                <div class="error"></div>
+            </div>
+            <div class="row">
+                <input type="password" name="password"/>
+                <label> Password: </label>
+                <div class="error"></div>
+            </div>
+            <div class="row">
+                <input type="submit" value="Sign In"/>
+            </div>
+        </form>
+        <div class="row">
+            <p>Don't have an account?</p>
+            <a href="/signup"  class="sign-links" id="sign_up_link">Sign Up</a>
+        </div>
+    </div>
+    <div class="footer"></div>
+</div>
+
+</body>
+</html>

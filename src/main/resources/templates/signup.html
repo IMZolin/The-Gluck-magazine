@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up/ The Gluck</title>
+</head>
+<body>
+<div class="container">
+    <div class="header"></div>
+    <div class="form-container" id="sign_up_form">
+        <p class="form-title">Welcome to The Gluck!</p>
+        <form action="/signup" method="post">
+            <div class="row">
+                <input type="text" name="username"/>
+                <label> User Name : </label>
+                <div class="error2"></div>
+            </div>
+            <div class="row">
+                <input type="text" name="first_name"/>
+                <label> First name : </label>
+                <div class="error2"></div>
+            </div>
+            <div class="row">
+                <input type="text" name="last_name"/>
+                <label> Last name :  </label>
+                <div class="error2"></div>
+            </div>
+            <div class="row">
+                <input type="text" name="email"/>
+                <label> Email:  </label>
+                <div class="error2"></div>
+            </div>
+            <div class="row">
+                <input type="password" name="password"/>
+                <label> Password:  </label>
+                <div class="error2"></div>
+            </div>
+            <div class="row">
+                <input type="password" name="password"/>
+                <label> Repeat password:  </label>
+                <div class="error2"></div>
+            </div>
+            <div><input type="submit" value="Sign Up"/></div>
+        </form>
+        <div class="row">
+            <p>Already have an account?</p>
+            <a th:href="@{/login}"  class="sign-links" id="sign_in_link" > Sign In </a>
+        </div>
+    </div>
+    <div class="footer"></div>
+</div>
+</body>
+</html>
