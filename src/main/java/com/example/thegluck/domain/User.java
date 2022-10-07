@@ -29,8 +29,26 @@ public class User {
     private String password;
     private boolean active;
     public User(){}
-    public static User of(String username, String fist_name, String last_name, String email, Set<Role> roles, String password, boolean active){
-        return new User(null,username,fist_name,last_name,email,roles,password,active);
+    public User(Long id, String username, String fist_name, String last_name, String email, String password) {
+        this.id = id;
+        this.username = username;
+        this.fist_name = fist_name;
+        this.last_name = last_name;
+        this.email = email;
+        this.password = password;
+    }
+    @PersistenceConstructor
+    private User(Long id, String username, String fist_name, String last_name, String email, String password, boolean active) {
+        this.id = id;
+        this.username = username;
+        this.fist_name = fist_name;
+        this.last_name = last_name;
+        this.email = email;
+        this.password = password;
+        this.active = active;
+    }
+    public static User of(String username, String fist_name, String last_name, String email, String password){
+        return new User(null, username, fist_name, last_name, email, password, active);
     }
     @PersistenceConstructor
     private User(Long id, String username, String fist_name, String last_name, String email, Set<Role> roles, String password, boolean active) {
@@ -43,4 +61,6 @@ public class User {
         this.password = password;
         this.active = active;
     }
+
+
 }
