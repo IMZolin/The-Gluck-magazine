@@ -1,7 +1,17 @@
 package com.example.thegluck.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.springframework.data.annotation.PersistenceConstructor;
+
 import javax.persistence.*;
 import java.util.Set;
+
+
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "users")
 public class User {
@@ -18,62 +28,19 @@ public class User {
     private Set<Role> roles;
     private String password;
     private boolean active;
-
-    public Long getId() {
-        return id;
+    public User(){}
+    public static User of(String username, String fist_name, String last_name, String email, Set<Role> roles, String password, boolean active){
+        return new User(null,username,fist_name,last_name,email,roles,password,active);
     }
-    public void setId(Long id) {
+    @PersistenceConstructor
+    private User(Long id, String username, String fist_name, String last_name, String email, Set<Role> roles, String password, boolean active) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getFirst_name() {
-        return fist_name;
-    }
-    public void setFirst_name(String first_name) {
         this.fist_name = fist_name;
-    }
-
-    public String getLast_name() {
-        return last_name;
-    }
-    public void setLast_name(String last_name) {
         this.last_name = last_name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
+        this.roles = roles;
         this.password = password;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-    public void setActive(boolean active) {
         this.active = active;
     }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-
 }

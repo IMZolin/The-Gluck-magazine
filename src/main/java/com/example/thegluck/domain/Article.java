@@ -1,6 +1,13 @@
 package com.example.thegluck.domain;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "articles")
 public class Article {
@@ -16,36 +23,6 @@ public class Article {
     public Article(String title, String text, String tag) {
         this.title = title;
         this.text = text;
-        this.tag = tag;
-    }
-    public Integer getId() {
-        return id;
-    }
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    public String getTitle() {
-        return title;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public void setText(String text) {
-        this.text = text;
-    }
-    public String getText() {
-        return text;
-    }
-    public String getTag() {
-        return tag;
-    }
-    public void setTag(String tag) {
         this.tag = tag;
     }
 }
