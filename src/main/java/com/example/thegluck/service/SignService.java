@@ -27,11 +27,11 @@ public class SignService {
                 User.of(username, fist_name, last_name, email, passwordEncoder.encode(password))
         );
     }
-    public User login(String email, String password){
+    public Token login(String email, String password){
         var user = userRepo.findByEmail(email)
                 .orElseThrow(() ->new ResponseStatusException(HttpStatus.BAD_REQUEST,"invalid credentials"));
         if(passwordEncoder.matches(password, user.getPassword()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"invalid credentials");
-        return null;
+        return Token.of(user.getId(), 10L,"very_long_and_secure_and_safe_access_key");
     }
 }

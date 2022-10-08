@@ -48,17 +48,12 @@ public class SignController {
     }
 
     record LoginRequest(String email, String password){}
-    record LoginResponse(Long id,
-                          @JsonProperty("username") String username,
-                          @JsonProperty("first_name") String fist_name,
-                          @JsonProperty("last_name")String last_name,
-                          String email
-    ){}
+    record LoginResponse(String token){}
 
     @PostMapping(value = "/login")
     public LoginResponse login(@RequestBody LoginRequest loginRequest){
-        var user = signService.login(loginRequest.email(), loginRequest.password());
-        return new LoginResponse(user.getId(),user.getUsername(),user.getFist_name(),user.getLast_name(),user.getEmail());
+        var token = signService.login(loginRequest.email(), loginRequest.password());
+        return new LoginResponse(token.getToken());
     }
 
 }
