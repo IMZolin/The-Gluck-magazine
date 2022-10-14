@@ -1,10 +1,10 @@
 package com.example.thegluck.repos;
-import com.example.thegluck.domain.Article;
-import org.springframework.data.repository.CrudRepository;
+
+import com.example.thegluck.entity.ArticleEntity;
 
 import java.util.List;
 
 public interface ArticleRepo {
-    List<Article> findByTag(String tag);
-    List<Article> findByTittle(String tittle);
+    List<ArticleEntity> findByTag(String tag);
+    List<ArticleEntity> findByTittle(String tittle);
 }
