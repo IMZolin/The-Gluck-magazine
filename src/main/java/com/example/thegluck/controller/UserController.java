@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/")
 public class UserController {
@@ -38,9 +40,16 @@ public class UserController {
             return ResponseEntity.badRequest().body("Error");
         }
     }
-
+    @GetMapping("users")
+    public List<UserEntity> getUsers(){
+        return userService.getAll();
+    };
+//    @GetMapping(value = "/username")
+//    public List<UserEntity> getByUsername(@RequestParam String username){
+//        return userService.getAll();
+//    };
     @GetMapping
-    public ResponseEntity getOneUser(@RequestParam String email) {
+    public ResponseEntity getUserByEmail(@RequestParam String email) {
         try {
             return ResponseEntity.ok(userService.getByEmail(email));
         } catch (UserNotFoundException e) {
@@ -49,4 +58,14 @@ public class UserController {
             return ResponseEntity.badRequest().body("Error");
         }
     }
+//    @GetMapping
+//    public ResponseEntity getUserByUsername(@RequestParam String username) {
+//        try {
+//            return ResponseEntity.ok(userService.getByUserName(username));
+//        } catch (UserNotFoundException e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body("Error");
+//        }
+//    }
 }

@@ -54,10 +54,11 @@ public class ArticleEntity {
     private String description;
     private String text;
     public ArticleEntity() {}
-    public ArticleEntity(String title, String text, String tag) {
+    public ArticleEntity(String title, String text, String tag, String description) {
         this.title = title;
         this.text = text;
         this.tag = tag;
+        this.description = description;
     }
 
 }

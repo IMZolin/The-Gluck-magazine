@@ -8,6 +8,9 @@ import com.example.thegluck.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UserService {
     @Autowired
@@ -33,6 +36,17 @@ public class UserService {
 
     public User getByEmail(String email) throws UserNotFoundException{
         UserEntity user = (UserEntity) userRepo.findByEmail(email);
+        if (user == null) {
+            throw new UserNotFoundException("User was not found");
+        }
+        return User.toModel(user);
+    }
+    public List<UserEntity> getAll(){
+        List<UserEntity> users = userRepo.findAll();
+        return users;
+    }
+    public User getByUsername(String username) throws UserNotFoundException {
+        UserEntity user = (UserEntity) userRepo.findByUsername(username);
         if (user == null) {
             throw new UserNotFoundException("User was not found");
         }
