@@ -1,7 +1,10 @@
 package com.example.thegluck.repos;
-import com.example.thegluck.domain.User;
+import com.example.thegluck.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-public interface UserRepo extends JpaRepository<User, Long> {
-    User findByUsername(String username);
-    User findByEmail(String email);
+
+import java.util.List;
+
+public interface UserRepo extends JpaRepository<UserEntity, Long> {
+    public UserEntity findByEmail(String email);
+    public UserEntity findByUsername(String username);
 }
