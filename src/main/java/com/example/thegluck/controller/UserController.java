@@ -1,6 +1,7 @@
 package com.example.thegluck.controller;
 
 import com.example.thegluck.entity.UserEntity;
+import com.example.thegluck.exception.NotMatchPasswordException;
 import com.example.thegluck.exception.UserAlreadyExistException;
 import com.example.thegluck.exception.UserNotFoundException;
 import com.example.thegluck.service.UserService;
@@ -13,21 +14,53 @@ import java.util.List;
 @RestController
 @RequestMapping("/")
 public class UserController {
-
     @Autowired
     private UserService userService;
-
-    @PostMapping("signup")
-    public ResponseEntity registration(@RequestBody UserEntity user) {
+    record SignupRequest(String username,
+                         String first_name,
+                         String last_name,
+                         String email,
+                         String password,
+                         String passwordConfirm
+    ){}
+    record SignupResponse(Long id,
+                          String username,
+                          String first_name,
+                          String last_name,
+                          String email
+    ){}
+    @PostMapping(value ="/signup")
+    public ResponseEntity<String> signup(@RequestBody SignupRequest signupRequest) throws UserAlreadyExistException, NotMatchPasswordException {
         try {
-            userService.signup(user);
+            var user = userService.signup(
+                    signupRequest.username(),
+                    signupRequest.first_name(),
+                    signupRequest.last_name(),
+                    signupRequest.email(),
+                    signupRequest.password(),
+                    signupRequest.passwordConfirm()
+            );
             return ResponseEntity.ok("User was saved");
-        } catch (UserAlreadyExistException e) {
+        } catch (UserAlreadyExistException | NotMatchPasswordException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error");
         }
+
+        //return new SignupResponse(user.getId(),user.getUsername(),user.getFirst_name(), user.getLast_name(),user.getEmail());
     }
+
+//    @PostMapping("signup")
+//    public ResponseEntity registration(@RequestBody UserEntity user) {
+//        try {
+//            userService.signup(user);
+//            return ResponseEntity.ok("User was saved");
+//        } catch (UserAlreadyExistException e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body("Error");
+//        }
+//    }
 
     @PostMapping("login")
     public ResponseEntity login(@RequestBody UserEntity user) {

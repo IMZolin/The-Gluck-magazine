@@ -64,6 +64,17 @@ public class UserEntity {
         this.email = email;
         this.password = password;
     }
+    public UserEntity(Long id,String username, String first_name, String last_name,String email, String password) {
+        this.id = id;
+        this.username = username;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.email = email;
+        this.password = password;
+    }
+    public static UserEntity of(String username,String first_name, String last_name, String email, String password) {
+        return new UserEntity(null,username,first_name, last_name, email, password);
+    }
 
 //    @Override
 //    public String toString() {
