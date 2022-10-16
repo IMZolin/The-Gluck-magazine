@@ -53,11 +53,4 @@ public class UserService {
         }
         return users_model;
     }
-    public User getByUsername(String username) throws UserNotFoundException {
-        UserEntity user = userRepo.findByUsername(username);
-        if (user == null) {
-            throw new UserNotFoundException("User was not found");
-        }
-        return User.toModel(user);
-    }
 }
