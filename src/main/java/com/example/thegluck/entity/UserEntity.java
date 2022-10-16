@@ -1,9 +1,11 @@
 package com.example.thegluck.entity;
 
+import com.example.thegluck.model.Role;
 import com.sun.istack.NotNull;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.Set;
 
 @Entity
@@ -18,6 +20,10 @@ public class UserEntity {
     private String last_name;
     private String password;
     private String username;
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ArticleEntity> articles;
     public Long getId() {
@@ -56,6 +62,13 @@ public class UserEntity {
     public void setPassword(String password) {
         this.password = password;
     }
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
     public UserEntity() {}
     public UserEntity(String username, String first_name, String last_name,String email, String password) {
         this.username = username;
@@ -71,6 +84,7 @@ public class UserEntity {
         this.last_name = last_name;
         this.email = email;
         this.password = password;
+        this.roles = Collections.singleton(Role.USER);
     }
     public static UserEntity of(String username,String first_name, String last_name, String email, String password) {
         return new UserEntity(null,username,first_name, last_name, email, password);
