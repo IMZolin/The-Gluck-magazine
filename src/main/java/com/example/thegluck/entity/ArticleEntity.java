@@ -3,6 +3,9 @@ package com.example.thegluck.entity;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @ToString
 @Table(name = "articles")
@@ -53,6 +56,13 @@ public class ArticleEntity {
     private String title;
     private String description;
     private String text;
+    @ManyToMany
+    @JoinTable(
+            name = "article_likes",
+            joinColumns = { @JoinColumn(name = "article_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id")}
+    )
+    private final Set<UserEntity> likes = new HashSet<>();
     public ArticleEntity() {}
     public ArticleEntity(String title, String text, String tag, String description) {
         this.title = title;

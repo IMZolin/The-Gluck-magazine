@@ -10,10 +10,12 @@ public class CommentEntity {
     @GeneratedValue
     private Long id;
     private String text;
-//    @ManyToOne
-//    @JoinColumn(name = "article_id")
-//    private List<ArticleEntity> articles;
-
+    @ManyToOne
+    @JoinColumn(name = "article_id")
+    private ArticleEntity article;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
+    private UserEntity author;
     public CommentEntity(){}
     public CommentEntity(Long id) {
         this.id = id;
