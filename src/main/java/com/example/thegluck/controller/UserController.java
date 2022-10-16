@@ -62,7 +62,7 @@ public class UserController {
     @GetMapping("users")
     public List<User> getUsers(){
         return userService.getAll();
-    };
+    }
     @GetMapping("user/{id}")
     public UserEntity getOne(@PathVariable("id") UserEntity user) {
         return user;
