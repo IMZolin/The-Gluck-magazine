@@ -19,6 +19,5 @@ public class CommentEntity {
     public CommentEntity(){}
     public CommentEntity(Long id) {
         this.id = id;
-
     }
 }

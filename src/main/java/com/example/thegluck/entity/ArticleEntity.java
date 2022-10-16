@@ -1,8 +1,12 @@
 package com.example.thegluck.entity;
 
+import com.example.thegluck.model.Article;
+import com.example.thegluck.model.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -63,12 +67,36 @@ public class ArticleEntity {
             inverseJoinColumns = { @JoinColumn(name = "user_id")}
     )
     private final Set<UserEntity> likes = new HashSet<>();
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Set<UserEntity> getLikes() {
+        return likes;
+    }
+
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    @Column(updatable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime creationDate;
     public ArticleEntity() {}
     public ArticleEntity(String title, String text, String tag, String description) {
         this.title = title;
         this.text = text;
         this.tag = tag;
         this.description = description;
+    }
+    public static ArticleEntity toEntity(Article model) {
+        ArticleEntity entity = new ArticleEntity();
+        entity.setId(model.getId());
+        entity.setTitle(model.getTitle());
+        entity.setDescription(model.getDescription());
+        model.setCreationDate(entity.getCreationDate());
+        return entity;
     }
 
 }

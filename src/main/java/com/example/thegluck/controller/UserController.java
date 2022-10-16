@@ -4,6 +4,7 @@ import com.example.thegluck.entity.UserEntity;
 import com.example.thegluck.exception.NotMatchPasswordException;
 import com.example.thegluck.exception.UserAlreadyExistException;
 import com.example.thegluck.exception.UserNotFoundException;
+import com.example.thegluck.model.User;
 import com.example.thegluck.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class UserController {
                           String last_name,
                           String email
     ){}
-    @PostMapping(value ="/signup")
+    @PostMapping(value ="signup")
     public ResponseEntity<String> signup(@RequestBody SignupRequest signupRequest) throws UserAlreadyExistException, NotMatchPasswordException {
         try {
             var user = userService.signup(
@@ -46,22 +47,7 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error");
         }
-
-        //return new SignupResponse(user.getId(),user.getUsername(),user.getFirst_name(), user.getLast_name(),user.getEmail());
     }
-
-//    @PostMapping("signup")
-//    public ResponseEntity registration(@RequestBody UserEntity user) {
-//        try {
-//            userService.signup(user);
-//            return ResponseEntity.ok("User was saved");
-//        } catch (UserAlreadyExistException e) {
-//            return ResponseEntity.badRequest().body(e.getMessage());
-//        } catch (Exception e) {
-//            return ResponseEntity.badRequest().body("Error");
-//        }
-//    }
-
     @PostMapping("login")
     public ResponseEntity login(@RequestBody UserEntity user) {
         try {
@@ -74,13 +60,13 @@ public class UserController {
         }
     }
     @GetMapping("users")
-    public List<UserEntity> getUsers(){
+    public List<User> getUsers(){
         return userService.getAll();
     };
-//    @GetMapping(value = "/username")
-//    public List<UserEntity> getByUsername(@RequestParam String username){
-//        return userService.getAll();
-//    };
+    @GetMapping("user/{id}")
+    public UserEntity getOne(@PathVariable("id") UserEntity user) {
+        return user;
+    }
     @GetMapping
     public ResponseEntity getUserByEmail(@RequestParam String email) {
         try {
@@ -94,11 +80,13 @@ public class UserController {
 //    @GetMapping
 //    public ResponseEntity getUserByUsername(@RequestParam String username) {
 //        try {
-//            return ResponseEntity.ok(userService.getByUserName(username));
+//            return ResponseEntity.ok(userService.getByUsername(username));
 //        } catch (UserNotFoundException e) {
 //            return ResponseEntity.badRequest().body(e.getMessage());
-//        } catch (Exception e) {
-//            return ResponseEntity.badRequest().body("Error");
 //        }
+////        } catch (Exception e) {
+////            return ResponseEntity.badRequest().body("Error");
+////        }
 //    }
 }
+
