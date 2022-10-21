@@ -24,4 +24,4 @@
       - editArticle - Edit article using model of article
 
 ### Postman resource:
-   - https://www.getpostman.com/collections/1169acc842a12cc04081
+   - https://www.postman.com/lunar-module-explorer-97798172/workspace/the-gluck
