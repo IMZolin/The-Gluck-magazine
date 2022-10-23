@@ -16,42 +16,6 @@ import java.util.Set;
 @ToString
 @Table(name = "articles")
 public class ArticleEntity {
-    public void setId(Integer id) {
-        this.id = id;
-    }
-//    public void setTag(String tag) {
-//        this.tag = tag;
-//    }
-    public void setAuthor(UserEntity author) {
-        this.author = author;
-    }
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public void setText(String text) {
-        this.text = text;
-    }
-    public Integer getId() {
-        return id;
-    }
-//    public String getTag() {
-//        return tag;
-//    }
-    public UserEntity getAuthor() {
-        return author;
-    }
-    public String getTitle() {
-        return title;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public String getText() {
-        return text;
-    }
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
@@ -76,7 +40,46 @@ public class ArticleEntity {
     @Column(updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime creationDate;
-
+    public ArticleEntity(Integer id, TagEntity tag, UserEntity author, String title, String description, String text, List<CommentEntity> comments, LocalDateTime creationDate) {
+        this.id = id;
+        this.tag = tag;
+        this.author = author;
+        this.title = title;
+        this.description = description;
+        this.text = text;
+        this.comments = comments;
+        this.creationDate = creationDate;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public void setAuthor(UserEntity author) {
+        this.author = author;
+    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public void setText(String text) {
+        this.text = text;
+    }
+    public Integer getId() {
+        return id;
+    }
+    public UserEntity getAuthor() {
+        return author;
+    }
+    public String getTitle() {
+        return title;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public String getText() {
+        return text;
+    }
     public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
@@ -101,5 +104,16 @@ public class ArticleEntity {
         model.setCreationDate(entity.getCreationDate());
         return entity;
     }
-
+    public void setTag(TagEntity tag) {
+        this.tag = tag;
+    }
+    public void setComments(List<CommentEntity> comments) {
+        this.comments = comments;
+    }
+    public TagEntity getTag() {
+        return tag;
+    }
+    public List<CommentEntity> getComments() {
+        return comments;
+    }
 }
