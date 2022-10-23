@@ -6,8 +6,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.xml.stream.events.Comment;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,9 +19,9 @@ public class ArticleEntity {
     public void setId(Integer id) {
         this.id = id;
     }
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
+//    public void setTag(String tag) {
+//        this.tag = tag;
+//    }
     public void setAuthor(UserEntity author) {
         this.author = author;
     }
@@ -35,9 +37,9 @@ public class ArticleEntity {
     public Integer getId() {
         return id;
     }
-    public String getTag() {
-        return tag;
-    }
+//    public String getTag() {
+//        return tag;
+//    }
     public UserEntity getAuthor() {
         return author;
     }
@@ -53,7 +55,9 @@ public class ArticleEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
-    private String tag;
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinTable(name = "tag_article")
+    TagEntity tag;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private UserEntity author;
@@ -67,11 +71,15 @@ public class ArticleEntity {
             inverseJoinColumns = { @JoinColumn(name = "user_id")}
     )
     private final Set<UserEntity> likes = new HashSet<>();
+    @OneToMany(mappedBy = "article", orphanRemoval = true)
+    private List<CommentEntity> comments;
+    @Column(updatable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime creationDate;
 
     public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
-
     public Set<UserEntity> getLikes() {
         return likes;
     }
@@ -79,15 +87,10 @@ public class ArticleEntity {
     public LocalDateTime getCreationDate() {
         return creationDate;
     }
-
-    @Column(updatable = false)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime creationDate;
     public ArticleEntity() {}
     public ArticleEntity(String title, String text, String tag, String description) {
         this.title = title;
         this.text = text;
-        this.tag = tag;
         this.description = description;
     }
     public static ArticleEntity toEntity(Article model) {

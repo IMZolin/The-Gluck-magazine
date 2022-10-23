@@ -3,15 +3,20 @@
 1. An online culture magazine  for free publication to novice journalists.
 2. An external order from students journalists
 3. A university project for the Java and API subjects in the SPbPU(Peter the Great St. Petersburg Polytechnic University)
-
+### Frontend part 
+* https://github.com/IMZolin/The-Gluck-magazine-front
 ### The manual for deploying and configuring the application locally
 
- 1. The application will be delivered as a jar archive.
- 2. It is necessary that the JRE (Java Runtime Environment) was installed on the working machine.
- 3. To run the application type in the command line: "java -Duser.timezone=GMT -jar <name of the file with the extension .jar>"
- 4. sAll done, you've launched the application!
+1. Clone this repo by using
+    ```
+     git clone http://github.com/
+    ```
+2. The application will be delivered as a jar archive.
+3. It is necessary that the JRE (Java Runtime Environment) was installed on the working machine.
+4. To run the application type in the command line: "java -Duser.timezone=GMT -jar <name of the file with the extension .jar>"
+5. sAll done, you've launched the application!
 
-### The logic of the applicationThe backend part is implemented using the
+### The logic of the application
 #### 1. Tools 
 * Spring framework(Java language)
 * Database - PostgreSQL database 
@@ -56,6 +61,7 @@
        * String text
        * Long article_id
        * Long user_id
+       
 #### 2.  Application Structure
 * Objects consist of entity, model, repos, service, controller
   * Entity
