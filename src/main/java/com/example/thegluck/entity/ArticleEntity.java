@@ -1,12 +1,10 @@
 package com.example.thegluck.entity;
 
 import com.example.thegluck.model.Article;
-import com.example.thegluck.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.ToString;
 
 import javax.persistence.*;
-import javax.xml.stream.events.Comment;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;

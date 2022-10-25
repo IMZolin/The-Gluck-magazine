@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -30,7 +30,7 @@ public class UserController {
                           String last_name,
                           String email
     ){}
-    @PostMapping(value ="signup")
+    @PostMapping(value ="/signup")
     public ResponseEntity<String> signup(@RequestBody SignupRequest signupRequest) throws UserAlreadyExistException, NotMatchPasswordException {
         try {
             var user = userService.signup(
@@ -48,7 +48,7 @@ public class UserController {
             return ResponseEntity.badRequest().body("Error");
         }
     }
-    @PostMapping("login")
+    @PostMapping("/login")
     public ResponseEntity login(@RequestBody UserEntity user) {
         try {
             String userName = userService.login(user);
@@ -59,11 +59,11 @@ public class UserController {
             return ResponseEntity.badRequest().body("Error");
         }
     }
-    @GetMapping("users")
+    @GetMapping("/users")
     public List<User> getUsers(){
         return userService.getAll();
     }
-    @GetMapping("user/{id}")
+    @GetMapping("/user/{id}")
     public UserEntity getOne(@PathVariable("id") UserEntity user) {
         return user;
     }
