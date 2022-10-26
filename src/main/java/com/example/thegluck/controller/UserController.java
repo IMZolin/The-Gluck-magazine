@@ -51,8 +51,8 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody UserEntity user) {
         try {
-            String userName = userService.login(user);
-            return ResponseEntity.ok(userName);
+            var user_search = userService.login(user);
+            return ResponseEntity.ok(user_search);
         } catch (UserNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {

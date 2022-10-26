@@ -28,7 +28,7 @@ public class UserService {
                 UserEntity.of(username,first_name,last_name, email,password)
         );
     }
-    public String login(UserEntity user) throws UserNotFoundException {
+    public UserEntity login(UserEntity user) throws UserNotFoundException {
         UserEntity checkingUser = (UserEntity) userRepo.findByEmail(user.getEmail());
         if (checkingUser == null) {
             throw new UserNotFoundException("User with this email has not been registered yet");
@@ -36,7 +36,7 @@ public class UserService {
         if (!checkingUser.getPassword().equals(user.getPassword())) {
             throw new UserNotFoundException("User with this email had different password");
         }
-        return checkingUser.getUsername();
+        return checkingUser;
     }
     public User getByEmail(String email) throws UserNotFoundException{
         UserEntity user = (UserEntity) userRepo.findByEmail(email);
