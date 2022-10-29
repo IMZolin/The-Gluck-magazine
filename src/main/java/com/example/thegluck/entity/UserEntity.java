@@ -1,6 +1,7 @@
 package com.example.thegluck.entity;
 
-import com.example.thegluck.model.Role;
+import com.example.thegluck.model.ERole;
+//import com.example.thegluck.model.Role;
 import com.sun.istack.NotNull;
 import lombok.ToString;
 
@@ -20,10 +21,10 @@ public class UserEntity {
     private String last_name;
     private String password;
     private String username;
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @ElementCollection(targetClass = ERole.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+    private Set<ERole> roles;
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ArticleEntity> articles;
     public Long getId() {
@@ -62,11 +63,11 @@ public class UserEntity {
     public void setPassword(String password) {
         this.password = password;
     }
-    public Set<Role> getRoles() {
+    public Set<ERole> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Set<ERole> roles) {
         this.roles = roles;
     }
     public UserEntity() {}
@@ -84,7 +85,7 @@ public class UserEntity {
         this.last_name = last_name;
         this.email = email;
         this.password = password;
-        this.roles = Collections.singleton(Role.USER);
+        this.roles = Collections.singleton(ERole.USER);
     }
     public static UserEntity of(String username,String first_name, String last_name, String email, String password) {
         return new UserEntity(null,username,first_name, last_name, email, password);

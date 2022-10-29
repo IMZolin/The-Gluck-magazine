@@ -1,7 +1,6 @@
 package com.example.thegluck.service;
 
 import com.example.thegluck.exception.NotMatchPasswordException;
-import com.example.thegluck.model.Role;
 import com.example.thegluck.model.User;
 import com.example.thegluck.entity.UserEntity;
 import com.example.thegluck.exception.UserAlreadyExistException;
@@ -23,12 +22,11 @@ public class UserService {
             throw new UserAlreadyExistException("User with this username have already registered");
         if(!Objects.equals(password,password_confirm))
             throw new NotMatchPasswordException("Passwords don't match");
-        //userRepo.findByEmail(email).setRoles(Collections.singleton(Role.USER));
         return userRepo.save(
                 UserEntity.of(username,first_name,last_name, email,password)
         );
     }
-    public UserEntity login(UserEntity user) throws UserNotFoundException {
+    public String login(UserEntity user) throws UserNotFoundException {
         UserEntity checkingUser = (UserEntity) userRepo.findByEmail(user.getEmail());
         if (checkingUser == null) {
             throw new UserNotFoundException("User with this email has not been registered yet");
@@ -36,7 +34,7 @@ public class UserService {
         if (!checkingUser.getPassword().equals(user.getPassword())) {
             throw new UserNotFoundException("User with this email had different password");
         }
-        return checkingUser;
+        return checkingUser.getUsername();
     }
     public User getByEmail(String email) throws UserNotFoundException{
         UserEntity user = (UserEntity) userRepo.findByEmail(email);

@@ -30,7 +30,7 @@ public class UserController {
                           String last_name,
                           String email
     ){}
-    @PostMapping(value ="/signup")
+    @PostMapping(value ="/auth/signup")
     public ResponseEntity<String> signup(@RequestBody SignupRequest signupRequest) throws UserAlreadyExistException, NotMatchPasswordException {
         try {
             var user = userService.signup(
@@ -48,22 +48,22 @@ public class UserController {
             return ResponseEntity.badRequest().body("Error");
         }
     }
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public ResponseEntity login(@RequestBody UserEntity user) {
         try {
-            var user_search = userService.login(user);
-            return ResponseEntity.ok(user_search);
+            String userName = userService.login(user);
+            return ResponseEntity.ok(userName);
         } catch (UserNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error");
         }
     }
-    @GetMapping("/users")
+    @GetMapping("users")
     public List<User> getUsers(){
         return userService.getAll();
     }
-    @GetMapping("/user/{id}")
+    @GetMapping("user/{id}")
     public UserEntity getOne(@PathVariable("id") UserEntity user) {
         return user;
     }
@@ -77,16 +77,4 @@ public class UserController {
             return ResponseEntity.badRequest().body("Error");
         }
     }
-//    @GetMapping
-//    public ResponseEntity getUserByUsername(@RequestParam String username) {
-//        try {
-//            return ResponseEntity.ok(userService.getByUsername(username));
-//        } catch (UserNotFoundException e) {
-//            return ResponseEntity.badRequest().body(e.getMessage());
-//        }
-////        } catch (Exception e) {
-////            return ResponseEntity.badRequest().body("Error");
-////        }
-//    }
 }
-
