@@ -4,8 +4,11 @@ import com.example.thegluck.model.ERole;
 //import com.example.thegluck.model.Role;
 import com.sun.istack.NotNull;
 import lombok.ToString;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
@@ -21,12 +24,25 @@ public class UserEntity {
     private String last_name;
     private String password;
     private String username;
+    private boolean active;
     @ElementCollection(targetClass = ERole.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<ERole> roles;
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ArticleEntity> articles;
+
+    /*public UserEntity(Long id, String username, String first_name, String last_name, String email, String password, boolean active) {
+        this.id = id;
+        this.username = username;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.email = email;
+        this.password = password;
+        this.active = true;
+        this.roles = Collections.singleton(ERole.USER);
+    }*/
+
     public Long getId() {
         return id;
     }
@@ -36,6 +52,7 @@ public class UserEntity {
     public String getUsername() {
         return username;
     }
+
     public String getEmail() {
         return email;
     }
@@ -51,6 +68,16 @@ public class UserEntity {
     public void setLast_name(String last_name) {
         this.last_name = last_name;
     }
+    public void setArticles(Set<ArticleEntity> articles) {
+        this.articles = articles;
+    }
+    public boolean isActive() {
+        return active;
+    }
+    public Set<ArticleEntity> getArticles() {
+        return articles;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -85,10 +112,15 @@ public class UserEntity {
         this.last_name = last_name;
         this.email = email;
         this.password = password;
+        this.active = true;
         this.roles = Collections.singleton(ERole.USER);
     }
     public static UserEntity of(String username,String first_name, String last_name, String email, String password) {
         return new UserEntity(null,username,first_name, last_name, email, password);
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 //    @Override

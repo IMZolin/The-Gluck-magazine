@@ -75,6 +75,9 @@ public class ArticleEntity {
     public String getDescription() {
         return description;
     }
+    public String getAuthorName() {
+        return author != null ? author.getUsername() : "<none>";
+    }
     public String getText() {
         return text;
     }
