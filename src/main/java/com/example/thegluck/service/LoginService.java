@@ -1,9 +1,11 @@
 package com.example.thegluck.service;
 
+import com.example.thegluck.entity.RoleEntity;
 import com.example.thegluck.exception.NotMatchPasswordException;
 import com.example.thegluck.entity.UserEntity;
 import com.example.thegluck.exception.UserAlreadyExistException;
 import com.example.thegluck.exception.UserNotFoundException;
+import com.example.thegluck.model.ERole;
 import com.example.thegluck.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ public class LoginService {
             throw new UserAlreadyExistException("User with this username have already registered");
         if(!Objects.equals(password,password_confirm))
             throw new NotMatchPasswordException("Passwords don't match");
+
         return userRepo.save(
                 UserEntity.of(username,first_name,last_name, email,password)
         );

@@ -19,7 +19,7 @@ public class LoginController {
                          String last_name,
                          String email,
                          String password,
-                         String passwordConfirm
+                         String password_confirm
     ){}
     record SignupResponse(Long id,
                           String username,
@@ -36,7 +36,7 @@ public class LoginController {
                     signupRequest.last_name(),
                     signupRequest.email(),
                     signupRequest.password(),
-                    signupRequest.passwordConfirm()
+                    signupRequest.password_confirm()
             );
             return ResponseEntity.ok("User was saved");
         } catch (UserAlreadyExistException | NotMatchPasswordException e) {

@@ -7,9 +7,11 @@ import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.management.relation.Role;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -25,23 +27,13 @@ public class UserEntity {
     private String password;
     private String username;
     private boolean active;
-    @ElementCollection(targetClass = ERole.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING)
-    private Set<ERole> roles;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(	name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<RoleEntity> roles = new HashSet<>();
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ArticleEntity> articles;
-
-    /*public UserEntity(Long id, String username, String first_name, String last_name, String email, String password, boolean active) {
-        this.id = id;
-        this.username = username;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.email = email;
-        this.password = password;
-        this.active = true;
-        this.roles = Collections.singleton(ERole.USER);
-    }*/
 
     public Long getId() {
         return id;
@@ -90,11 +82,11 @@ public class UserEntity {
     public void setPassword(String password) {
         this.password = password;
     }
-    public Set<ERole> getRoles() {
+    public Set<RoleEntity> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<ERole> roles) {
+    public void setRoles(Set<RoleEntity> roles) {
         this.roles = roles;
     }
     public UserEntity() {}
@@ -113,7 +105,7 @@ public class UserEntity {
         this.email = email;
         this.password = password;
         this.active = true;
-        this.roles = Collections.singleton(ERole.USER);
+        //this.roles = Collections.singleton(ERole.USER);
     }
     public static UserEntity of(String username,String first_name, String last_name, String email, String password) {
         return new UserEntity(null,username,first_name, last_name, email, password);
