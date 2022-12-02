@@ -4,12 +4,14 @@ import com.example.thegluck.entity.UserEntity;
 import com.example.thegluck.exception.NotMatchPasswordException;
 import com.example.thegluck.exception.UserAlreadyExistException;
 import com.example.thegluck.exception.UserNotFoundException;
+import com.example.thegluck.model.User;
 import com.example.thegluck.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
@@ -70,5 +72,12 @@ public class AuthController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error");
         }
+    }
+    record UserResponse(Long id, String first_name, String last_name, String email){}
+    @GetMapping("/user")
+    public UserResponse user(HttpServletRequest request)
+    {
+        var user = (UserEntity) request.getAttribute("user");
+        return new UserResponse(user.getId(), user.getFirst_name(), user.getLast_name(),user.getEmail());
     }
 }

@@ -37,6 +37,9 @@ public class AuthService {
                 UserEntity.of(username,first_name,last_name, email,passwordEncoder.encode(password))
         );
     }
+    public UserEntity getUserFromToken(String token){
+        return userRepo.findByUsername(Token.from(token, accessTokenSecret));
+    }
     public Login login(String email, String password) throws UserNotFoundException {
         UserEntity user = (UserEntity) userRepo.findByEmail(email);
         if (user == null) {

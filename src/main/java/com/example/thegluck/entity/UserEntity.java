@@ -27,11 +27,11 @@ public class UserEntity {
     private String password;
     private String username;
     private boolean active;
-    @ManyToMany(fetch = FetchType.LAZY)
+    /*@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(	name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<RoleEntity> roles = new HashSet<>();
+    private Set<RoleEntity> roles = new HashSet<>();*/
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ArticleEntity> articles;
 
@@ -82,13 +82,13 @@ public class UserEntity {
     public void setPassword(String password) {
         this.password = password;
     }
-    public Set<RoleEntity> getRoles() {
+   /* public Set<RoleEntity> getRoles() {
         return roles;
     }
 
     public void setRoles(Set<RoleEntity> roles) {
         this.roles = roles;
-    }
+    }*/
     public UserEntity() {}
     public UserEntity(String username, String first_name, String last_name,String email, String password) {
         this.username = username;
