@@ -38,18 +38,22 @@ public class AuthService {
         );
     }
     public UserEntity getUserFromToken(String token){
-        return userRepo.findByUsername(Token.from(token, accessTokenSecret));
+        return userRepo.findById(Token.from(token, accessTokenSecret))
+                .orElseThrow();
     }
     public Login login(String email, String password) throws UserNotFoundException {
         UserEntity user = (UserEntity) userRepo.findByEmail(email);
         if (user == null) {
             throw new UserNotFoundException("User with this email has not been registered yet");
         }
-        //checkingUser.getPassword()
         if (!passwordEncoder.matches(password,user.getPassword())) {
             throw new UserNotFoundException("User with this email had different password");
         }
-        /*return checkingUser.getUsername();*/
         return Login.of(user.getId(),accessTokenSecret, refreshTokenSecret);
+    }
+    public Login refreshAccess(String refreshToken){
+        var userId = Token.from(refreshToken, refreshTokenSecret);
+        return Login.of(userId, accessTokenSecret, Token.of(refreshToken));
+
     }
 }

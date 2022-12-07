@@ -73,11 +73,18 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Error");
         }
     }
-    record UserResponse(Long id, String first_name, String last_name, String email){}
-    @GetMapping("/user")
-    public UserResponse user(HttpServletRequest request)
-    {
-        var user = (UserEntity) request.getAttribute("user");
-        return new UserResponse(user.getId(), user.getFirst_name(), user.getLast_name(),user.getEmail());
+    record RefreshResponse(String token){}
+    @PostMapping(value = "/refresh")
+    public RefreshResponse refresh(@CookieValue("refresh_token") String refreshToken){
+        return new RefreshResponse(authService.refreshAccess(refreshToken).getAccessToken().getToken());
+    }
+    record LogoutResponse(String message) {}
+    @PostMapping(value = "/logout")
+    public LogoutResponse logout(HttpServletResponse response){
+        Cookie cookie = new Cookie("refresh_token", null);
+        cookie.setMaxAge(0);
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
+        return new LogoutResponse("success");
     }
 }

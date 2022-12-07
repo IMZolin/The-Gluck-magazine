@@ -23,6 +23,13 @@ public class UserController {
     public UserEntity getOne(@PathVariable("id") UserEntity user) {
         return user;
     }
+    record UserResponse(Long id, String first_name, String last_name, String email){}
+    @GetMapping
+    public UserResponse user(HttpServletRequest request)
+    {
+        var user = (UserEntity) request.getAttribute("user");
+        return new UserResponse(user.getId(), user.getFirst_name(), user.getLast_name(),user.getEmail());
+    }
     /*@GetMapping
     public ResponseEntity getUserByEmail(@RequestParam String email) {
         try {
