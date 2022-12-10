@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/user")
 public class UserController {
     @Autowired
@@ -30,14 +31,4 @@ public class UserController {
         var user = (UserEntity) request.getAttribute("user");
         return new UserResponse(user.getId(), user.getFirst_name(), user.getLast_name(),user.getEmail());
     }
-    /*@GetMapping
-    public ResponseEntity getUserByEmail(@RequestParam String email) {
-        try {
-            return ResponseEntity.ok(userService.getByEmail(email));
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error");
-        }
-    }*/
 }
