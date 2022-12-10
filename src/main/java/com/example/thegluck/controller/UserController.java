@@ -1,92 +1,34 @@
 package com.example.thegluck.controller;
 
 import com.example.thegluck.entity.UserEntity;
-import com.example.thegluck.exception.NotMatchPasswordException;
-import com.example.thegluck.exception.UserAlreadyExistException;
-import com.example.thegluck.exception.UserNotFoundException;
 import com.example.thegluck.model.User;
 import com.example.thegluck.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/")
+@CrossOrigin
+@RequestMapping("/api/user")
 public class UserController {
     @Autowired
     private UserService userService;
-    record SignupRequest(String username,
-                         String first_name,
-                         String last_name,
-                         String email,
-                         String password,
-                         String passwordConfirm
-    ){}
-    record SignupResponse(Long id,
-                          String username,
-                          String first_name,
-                          String last_name,
-                          String email
-    ){}
-    @PostMapping(value ="signup")
-    public ResponseEntity<String> signup(@RequestBody SignupRequest signupRequest) throws UserAlreadyExistException, NotMatchPasswordException {
-        try {
-            var user = userService.signup(
-                    signupRequest.username(),
-                    signupRequest.first_name(),
-                    signupRequest.last_name(),
-                    signupRequest.email(),
-                    signupRequest.password(),
-                    signupRequest.passwordConfirm()
-            );
-            return ResponseEntity.ok("User was saved");
-        } catch (UserAlreadyExistException | NotMatchPasswordException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error");
-        }
-    }
-    @PostMapping("login")
-    public ResponseEntity login(@RequestBody UserEntity user) {
-        try {
-            String userName = userService.login(user);
-            return ResponseEntity.ok(userName);
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error");
-        }
-    }
-    @GetMapping("users")
+
+    @GetMapping("/all")
     public List<User> getUsers(){
         return userService.getAll();
     }
-    @GetMapping("user/{id}")
+    @GetMapping("/{id}")
     public UserEntity getOne(@PathVariable("id") UserEntity user) {
         return user;
     }
+    record UserResponse(Long id, String first_name, String last_name, String email){}
     @GetMapping
-    public ResponseEntity getUserByEmail(@RequestParam String email) {
-        try {
-            return ResponseEntity.ok(userService.getByEmail(email));
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error");
-        }
+    public UserResponse user(HttpServletRequest request)
+    {
+        var user = (UserEntity) request.getAttribute("user");
+        return new UserResponse(user.getId(), user.getFirst_name(), user.getLast_name(),user.getEmail());
     }
-//    @GetMapping
-//    public ResponseEntity getUserByUsername(@RequestParam String username) {
-//        try {
-//            return ResponseEntity.ok(userService.getByUsername(username));
-//        } catch (UserNotFoundException e) {
-//            return ResponseEntity.badRequest().body(e.getMessage());
-//        }
-////        } catch (Exception e) {
-////            return ResponseEntity.badRequest().body("Error");
-////        }
-//    }
 }
-
